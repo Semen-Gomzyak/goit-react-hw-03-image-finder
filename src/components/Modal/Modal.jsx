@@ -7,18 +7,16 @@ const rootRef = document.querySelector('#root');
 
 export class Modal extends PureComponent {
   componentDidMount() {
-    const modalRef = document.querySelector('[data-modal="wrap"]');
-    modalRef.addEventListener('click', this.closeModalByBackdrop);
     window.addEventListener('keydown', this.closeModalByEsc);
   }
 
   componentWillUnmount() {
-    const modalRef = document.querySelector('[data-modal="wrap"]');
-    modalRef.removeEventListener('click', this.closeModalByBackdrop);
     window.removeEventListener('keydown', this.closeModalByEsc);
   }
 
   closeModalByBackdrop = e => {
+    console.log(e.target);
+    console.log(e.currentTarget);
     if (e.target === e.currentTarget) {
       this.props.closeModal();
     }
@@ -34,7 +32,7 @@ export class Modal extends PureComponent {
 
   render() {
     return createPortal(
-      <Overlay data-modal="wrap">
+      <Overlay data-modal="wrap" onClick={this.closeModalByBackdrop}>
         <ModalBlock>
           <img
             src={this.props.modalCard.largeImageURL}
