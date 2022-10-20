@@ -20,7 +20,11 @@ export class App extends PureComponent {
   };
 
   async componentDidUpdate(_, prevState) {
-    const { queryString, page } = this.state;
+    const { queryString, page, images } = this.state;
+
+    if (prevState.images !== images) {
+      this.ScrollByGallery(page);
+    }
 
     if (prevState.queryString !== queryString || prevState.page !== page) {
       try {
@@ -50,6 +54,13 @@ export class App extends PureComponent {
     }
     this.setState({ images: [], page: 1, queryString: queryString });
     resetForm();
+  };
+
+  ScrollByGallery = page => {
+    window.scrollBy({
+      top: window.screen.availHeight / (page / window.screen.availHeight),
+      behavior: 'smooth',
+    });
   };
 
   showMore = () => {
